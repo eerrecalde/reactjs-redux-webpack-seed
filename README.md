@@ -1,4 +1,4 @@
-** Taken from Cory House's course https://github.com/coryhouse/pluralsight-redux-starter/ **
+**Taken from Cory House's course https://github.com/coryhouse/pluralsight-redux-starter/**
 
 ### First steps:
 - Clone the repository
@@ -7,4 +7,4 @@
 - Have a look at the "packages.json" file in the scripts node
 
 #### Side Notes:
-- There are a bunch of node modules. This assumes all of them will be used at some point
+- There are a bunch of node modules that might not be used. This assumes all of them will be used at some point
