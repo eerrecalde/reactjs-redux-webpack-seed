@@ -4,14 +4,19 @@
   "description": "Sainsburys Homepage alternate",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --reporter spec tools/testSetup.js \"src/**/*.test.js\"",
     "open:src": "babel-node tools/srcServer.js",
     "prestart": "babel-node tools/startMessage.js",
     "start": "npm-run-all --parallel open:src lint:watch test:watch",
     "lint": "node_modules/.bin/esw webpack.config.*.js src tools",
     "lint:watch": "npm run lint -- --watch",
-    "test": "mocha --reporter progress tools/testSetup.js \"src/**/*.test.js\"",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "clean-dist": "npm run remove-dist && mkdir dist",
+    "remove-dist": "node_modules/.bin/rimraf ./dist",
+    "build:html": "babel-node tools/buildHtml.js",
+    "prebuild": "npm-run-all clean-dist test lint build:html",
+    "build": "babel-node tools/build.js",
+    "postbuild": "babel-node tools/distServer.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +28,7 @@
   "dependencies": {
     "babel-polyfill": "6.8.0",
     "bootstrap": "3.3.6",
+    "cheerio": "^0.20.0",
     "jquery": "2.2.3",
     "react": "15.0.2",
     "react-dom": "15.0.2",
