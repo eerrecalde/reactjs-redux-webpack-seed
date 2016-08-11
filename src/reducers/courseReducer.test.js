@@ -1,7 +1,6 @@
-import expect from 'expect';
-import courseReducer from './courseReducer';
-import * as actions from '../actions/courseActions';
-
+import expect from 'expect'
+import courseReducer from './courseReducer'
+import * as actions from '../actions/courseActions'
 
 describe('Course Reducer', () => {
   describe('UPDATE_COURSE_SUCCESS', () => {
@@ -10,22 +9,22 @@ describe('Course Reducer', () => {
       const initialState = [
         {title: 'A'},
         {title: 'B'}
-      ];
+      ]
 
-      const newCourse = {title: 'C'};
+      const newCourse = {title: 'C'}
 
-      const action = actions.createCourseSuccess(newCourse);
+      const action = actions.createCourseSuccess(newCourse)
 
       // act
-      const newState = courseReducer(initialState, action);
+      const newState = courseReducer(initialState, action)
 
       // assert
-      expect(newState.length).toEqual(3);
-      expect(newState[0].title).toEqual('A');
-      expect(newState[1].title).toEqual('B');
-      expect(newState[2].title).toEqual('C');
-    });
-  });
+      expect(newState.length).toEqual(3)
+      expect(newState[0].title).toEqual('A')
+      expect(newState[1].title).toEqual('B')
+      expect(newState[2].title).toEqual('C')
+    })
+  })
 
   describe('UPDATE_COURSE_SUCCESS', () => {
     it('should add course when passed UPDATE_COURSE_SUCCESS', () => {
@@ -34,20 +33,20 @@ describe('Course Reducer', () => {
         {id: 'A', title: 'A'},
         {id: 'B', title: 'B'},
         {id: 'C', title: 'C'}
-      ];
+      ]
 
-      const course = {id: 'C', title: 'New title'};
-      const action = actions.updateCourseSuccess(course);
+      const course = {id: 'C', title: 'New title'}
+      const action = actions.updateCourseSuccess(course)
 
       // act
-      const newState = courseReducer(initialState, action);
-      const updateCourse = newState.find(a => a.id == course.id);
-      const untouchedCourse = newState.find(a => a.id == 'A');
+      const newState = courseReducer(initialState, action)
+      const updateCourse = newState.find(a => a.id === course.id)
+      const untouchedCourse = newState.find(a => a.id === 'A')
 
       // assert
-      expect(updateCourse.title).toEqual('New title');
-      expect(untouchedCourse.title).toEqual('A');
-      expect(newState.length).toEqual(3);
-    });
-  });
-});
+      expect(updateCourse.title).toEqual('New title')
+      expect(untouchedCourse.title).toEqual('A')
+      expect(newState.length).toEqual(3)
+    })
+  })
+})

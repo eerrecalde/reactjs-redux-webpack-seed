@@ -1,10 +1,12 @@
 {
   "extends": [
     "eslint:recommended",
-    "plugin:import/errors",
+    "standard",
+    "standard-react",
     "plugin:import/warnings"
   ],
   "plugins": [
+    "babel",
     "react"
   ],
   "parserOptions": {
@@ -26,7 +28,7 @@
     "no-console": 1,
     "no-debugger": 1,
     "no-var": 1,
-    "semi": [1, "always"],
+    "semi": [2, "never"],
     "no-trailing-spaces": 0,
     "eol-last": 0,
     "no-unused-vars": 0,

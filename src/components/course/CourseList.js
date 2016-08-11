@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react';
-import CourseListRow from './CourseListRow';
+import React, {PropTypes} from 'react'
+import CourseListRow from './CourseListRow'
 
 const CourseList = ({courses}) => {
   return (
@@ -19,11 +19,11 @@ const CourseList = ({courses}) => {
         )}
       </tbody>
     </table>
-  );
-};
+  )
+}
 
 CourseList.propTypes = {
   courses: PropTypes.array.isRequired
-};
+}
 
-export default CourseList;
+export default CourseList
