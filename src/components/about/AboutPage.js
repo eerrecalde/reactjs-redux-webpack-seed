@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 class AboutPage extends React.Component {
   render () {
@@ -7,8 +7,8 @@ class AboutPage extends React.Component {
         <h1>About</h1>
         <p>This is app uses React, Redux, and React Redux.</p>
       </div>
-    );
+    )
   }
 }
 
-export default AboutPage;
+export default AboutPage

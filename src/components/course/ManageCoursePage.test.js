@@ -1,7 +1,7 @@
-import React from 'react';
-import expect from 'expect';
-import {mount,shallow} from 'enzyme';
-import {ManageCoursePage} from './ManageCoursePage';
+import React from 'react'
+import expect from 'expect'
+import {mount, shallow} from 'enzyme'
+import {ManageCoursePage} from './ManageCoursePage'
 
 describe('Manage course Page', () => {
   it('sets error message when trying to save empy title', () => {
@@ -9,7 +9,7 @@ describe('Manage course Page', () => {
       authors: [],
       actions: {
         saveCourse: () => {
-          return Promise.resolve();
+          return Promise.resolve()
         }
       },
       course: {
@@ -20,11 +20,11 @@ describe('Manage course Page', () => {
         length: '',
         category: ''
       }
-    };
-    const wrapper = mount(<ManageCoursePage {...props} />);
-    const saveButton = wrapper.find('button').last();
-    expect(saveButton.prop('value')).toBe('Save');
-    saveButton.simulate('click');
-    expect(wrapper.state().errors.title).toBe('Title must be at least 5 characters.');
-  });
-});
+    }
+    const wrapper = mount(<ManageCoursePage {...props} />)
+    const saveButton = wrapper.find('button').last()
+    expect(saveButton.prop('value')).toBe('Save')
+    saveButton.simulate('click')
+    expect(wrapper.state().errors.title).toBe('Title must be at least 5 characters.')
+  })
+})
