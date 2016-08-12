@@ -5,6 +5,8 @@ import webpack from 'webpack'
 import webpackConfig from '../config/webpack.config.prod'
 import colors from 'colors'
 
+let env = process.env.NODE_ENV || 'production'
+let baseDir = (env === 'server') ? 'dist_server' : 'dist'
 process.env.NODE_ENV = 'production' // this assures the Babel dev config (for hot reloading) doesn't apply
 
 console.log('Generating minified bundle for production via Webpack. This will take a moment...'.blue)
@@ -29,7 +31,7 @@ webpack(webpackConfig).run((err, stats) => {
   console.log('Webpack generated the following warnings: '.bold.yellow)
 
   // if we got this far, the build succeded
-  console.log('Your app has been compiled in production mode and wittern to /dist. It\'s ready to roll!'.green)
+  console.log('Your app has been compiled in production mode and wittern to /' + baseDir + '. It\'s ready to roll!'.green)
 
   return 0
 })

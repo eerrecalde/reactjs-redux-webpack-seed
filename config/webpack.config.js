@@ -1,6 +1,7 @@
 import webpack from 'webpack'
 import path from 'path'
 import cssnano from 'cssnano'
+import ExtractTextPlugin from "extract-text-webpack-plugin"
 
 const baseUrl = path.join(__dirname, '..')
 
@@ -11,15 +12,17 @@ let PATHS_TO_TREAT_AS_CSS_MODULES = [
 const isUsingCSSModules = !!PATHS_TO_TREAT_AS_CSS_MODULES.length
 const cssModulesRegex = new RegExp(`(${PATHS_TO_TREAT_AS_CSS_MODULES})`)
 
+let env = process.env.NODE_ENV || 'development'
+let outputDir = (env === 'server') ? 'dist_server' : 'dist'
+
 const webpackConfig = {
-  target: 'web',
-  output: {
-    path: path.join(baseUrl, 'dist'), // Note: Physical files are only output by the production build task `npm run build`.
-    publicPath: '/',
-    filename: 'bundle.js'
-  },
   devServer: {
     contentBase: path.join(baseUrl, 'src')
+  },
+  output: {
+    path: path.join(baseUrl, outputDir), // Note: Physical files are only output by the production build task `npm run build`.
+    publicPath: '/',
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
@@ -29,7 +32,14 @@ const webpackConfig = {
       {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream'},
       {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml'}
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      "process.env": {
+        BROWSER: JSON.stringify(true)
+      }
+    })
+  ]
 }
 
 if (isUsingCSSModules) {
@@ -101,5 +111,20 @@ webpackConfig.postcss = [
     sourcemap: true
   })
 ]
+
+if (env !== 'development') {
+  webpackConfig.module.loaders.filter((loader) =>
+    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
+  ).forEach((loader) => {
+    const [first, ...rest] = loader.loaders
+    loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
+    Reflect.deleteProperty(loader, 'loaders')
+  })
+  // webpackConfig.plugins.push(
+  //   new ExtractTextPlugin('[name].[contenthash].css', {
+  //     allChunks: true
+  //   })
+  // )
+}
 
 export default webpackConfig

@@ -12,13 +12,16 @@ const baseUrl = path.join(__dirname, '..')
 
 const webpackConfig = {
   debug: true,
+  target: 'web',
   devtool: 'source-map',
   noInfo: false,
   entry: path.join(baseUrl, 'src', 'index'),
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin(GLOBALS),
-    new ExtractTextPlugin('styles.css'),
+    new ExtractTextPlugin('styles.css', {
+      allChunks: true
+    }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
   ]

@@ -1,8 +1,11 @@
 import fs from 'fs'
 import cheerio from 'cheerio' // give us an easy way to interact with the html in memory via jquery selectors.
 import colors from 'colors'
+import path from 'path'
 
 /*eslint-disable no-console*/
+let env = process.env.NODE_ENV || 'development'
+let baseDir = (env === 'server') ? 'dist_server' : 'dist'
 
 fs.readFile('src/index.html', 'utf8', (err, markup) => {
   if (err) {
@@ -15,10 +18,10 @@ fs.readFile('src/index.html', 'utf8', (err, markup) => {
 
   $('head').prepend('<link rel="stylesheet" href="styles.css">')
 
-  fs.writeFile('dist/index.html', $.html(), 'utf8', (err) => {
+  fs.writeFile(path.join(baseDir, 'index.html'), $.html(), 'utf8', (err) => {
     if (err) {
       return console.log(err)
     }
-    console.log('index.html written to /dist'.green)
+    console.log('index.html written to /' + baseDir + '.'.green)
   })
 })
