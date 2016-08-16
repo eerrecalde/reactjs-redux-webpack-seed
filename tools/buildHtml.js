@@ -4,8 +4,7 @@ import colors from 'colors'
 import path from 'path'
 
 /*eslint-disable no-console*/
-let env = process.env.NODE_ENV || 'development'
-let baseDir = (env === 'server') ? 'dist_server' : 'dist'
+let baseDir = path.join(__dirname, '..', 'dist')
 
 fs.readFile('src/index.html', 'utf8', (err, markup) => {
   if (err) {

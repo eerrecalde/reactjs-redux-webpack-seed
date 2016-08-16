@@ -5,6 +5,8 @@ import ExtractTextPlugin from "extract-text-webpack-plugin"
 
 const baseUrl = path.join(__dirname, '..')
 
+console.log('WEBPACKCONFIG')
+
 let PATHS_TO_TREAT_AS_CSS_MODULES = [
   path.join(baseUrl, 'src').replace(/[\^\$\.\*\+\-\?\=\!\:\|\\\/\(\)\[\]\{\}\,]/g, '\\$&') // eslint-disable-line
 ]
@@ -12,34 +14,19 @@ let PATHS_TO_TREAT_AS_CSS_MODULES = [
 const isUsingCSSModules = !!PATHS_TO_TREAT_AS_CSS_MODULES.length
 const cssModulesRegex = new RegExp(`(${PATHS_TO_TREAT_AS_CSS_MODULES})`)
 
-let env = process.env.NODE_ENV || 'development'
-let outputDir = (env === 'server') ? 'dist_server' : 'dist'
-
 const webpackConfig = {
   devServer: {
     contentBase: path.join(baseUrl, 'src')
   },
-  output: {
-    path: path.join(baseUrl, outputDir), // Note: Physical files are only output by the production build task `npm run build`.
-    publicPath: '/',
-    filename: 'bundle.js'
-  },
   module: {
     loaders: [
-      {test: /\.js$/, include: path.join(baseUrl, 'src'), loaders: ['babel']},
+      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
       {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
       {test: /\.(woff|woff2)$/, loader: 'url?prefix=font/&limit=5000'},
       {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream'},
       {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml'}
     ]
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      "process.env": {
-        BROWSER: JSON.stringify(true)
-      }
-    })
-  ]
+  }
 }
 
 if (isUsingCSSModules) {
@@ -112,19 +99,12 @@ webpackConfig.postcss = [
   })
 ]
 
-if (env !== 'development') {
-  webpackConfig.module.loaders.filter((loader) =>
-    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
-  ).forEach((loader) => {
-    const [first, ...rest] = loader.loaders
-    loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
-    Reflect.deleteProperty(loader, 'loaders')
-  })
-  // webpackConfig.plugins.push(
-  //   new ExtractTextPlugin('[name].[contenthash].css', {
-  //     allChunks: true
-  //   })
-  // )
-}
+webpackConfig.module.loaders.filter((loader) =>
+  loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
+).forEach((loader) => {
+  const [first, ...rest] = loader.loaders
+  loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
+  Reflect.deleteProperty(loader, 'loaders')
+})
 
 export default webpackConfig

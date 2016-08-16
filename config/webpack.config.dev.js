@@ -14,6 +14,11 @@ const webpackConfigDev = {
     'webpack-hot-middleware/client?reload=true', // note that it reloads the page if hot module reloading fails.
     path.join(baseUrl, 'src', 'index')
   ],
+  output: {
+    path: path.join(baseUrl, 'dist'), // Note: Physical files are only output by the production build task `npm run build`.
+    publicPath: '/',
+    filename: 'bundle.js'
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
