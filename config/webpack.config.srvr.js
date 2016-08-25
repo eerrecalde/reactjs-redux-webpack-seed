@@ -20,15 +20,12 @@ let webpackConfig = {
   // Server rendering
   entry: [
     "babel-polyfill",
-    path.join(baseUrl, 'src', 'index')
+    path.join(baseUrl, 'client', 'index')
   ],
   output: {
     path: path.join(baseUrl, 'dist'), // Note: Physical files are only output by the production build task `npm run build`.
     publicPath: '/',
-    filename: 'bundle.js',
-    library: 'server',
-    libraryTarget: 'umd',
-    umdNamedDefine: true
+    filename: 'bundle.js'
   },
   target: 'node',
   externals: fs.readdirSync(path.resolve(baseUrl, 'node_modules')).concat([
