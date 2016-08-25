@@ -2,6 +2,8 @@ import webpack from 'webpack'
 import path from 'path'
 import config from './webpack.config'
 
+console.log('SERVER DEV')
+
 const baseUrl = path.join(__dirname, '..')
 
 const webpackConfigDev = {

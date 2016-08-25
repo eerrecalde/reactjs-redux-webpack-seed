@@ -19,7 +19,8 @@
     "start:prod": "babel-node tools/serverFile.prod.js",
     "build_srvr": "babel-node tools/build.srvr.js",
     "build:srvr": "npm-run-all clean-dist test lint build:html build_srvr",
-    "start:srvr": "babel-node tools/serverFile.srvr.js"
+    "start:srvr": "babel-node tools/serverFile.srvr.js",
+    "start_srvr": "babel-node server/app.dev.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/eerrecalde/s-homepage#readme",
   "dependencies": {
+    "alertify-js": "^0.3.12",
     "babel-polyfill": "6.8.0",
     "bootstrap": "3.3.6",
     "cheerio": "^0.20.0",
@@ -39,8 +41,7 @@
     "react-router": "2.4.0",
     "react-router-redux": "4.0.4",
     "redux": "3.5.2",
-    "redux-thunk": "2.0.1",
-    "toastr": "2.1.2"
+    "redux-thunk": "2.0.1"
   },
   "devDependencies": {
     "babel-cli": "6.8.0",
