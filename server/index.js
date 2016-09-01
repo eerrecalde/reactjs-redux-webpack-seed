@@ -7,7 +7,8 @@ import routes from '../src/routes'
 import configureStore from '../src/store/configureStore'
 import initialState from '../src/reducers/initialState'
 import AppContainer from '../src/AppContainer'
-import fetch from 'isomorphic-fetch'
+import {loadCourses} from '../src/actions/courseActions'
+import {loadAuthors} from '../src/actions/authorActions'
 
 const reactApp = (req, res) => {
   // Tip: https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md
@@ -19,11 +20,17 @@ const reactApp = (req, res) => {
     // Set up the store by providing the initialState and the history.
     const store = configureStore(initialState, memoryHistory)
 
+    // store.dispatch(loadCourses())
+    // store.dispatch(loadAuthors())
+
     // Create an enhanced history that syncs navigation events with the store
     // https://github.com/reactjs/react-router-redux#tutorial
     const history = syncHistoryWithStore(memoryHistory, store, {
       selectLocationState: (state) => state.router
     })
+
+    const css = [] // CSS for all rendered React components
+    const context = { insertCss: (styles) => css.push(styles._getCss()) }
 
     if (error) {
       res.status(500).send(error.message)
@@ -35,6 +42,7 @@ const reactApp = (req, res) => {
           <html>
             <head>
               <title>Isomorphic Web App</title>
+              <style type="text/css">${css.join('')}</style>
               <script dangerouslySetInnerHTML={{__html: `___INITIAL_STATE__ = ${JSON.stringify(store.getState())}`}}></script>
             </head>
             <body>

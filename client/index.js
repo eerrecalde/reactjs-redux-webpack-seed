@@ -6,6 +6,8 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import createStore from '../src/store/configureStore'
 import AppContainer from '../src/AppContainer'
 import routes from '../src/routes'
+import {loadCourses} from '../src/actions/courseActions'
+import {loadAuthors} from '../src/actions/authorActions'
 
 // ========================================================
 // Browser History Setup
@@ -13,6 +15,8 @@ import routes from '../src/routes'
 const browserHistory = useRouterHistory(createBrowserHistory)({
   basename: ''
 })
+
+console.log('11111', browserHistory)
 
 // ========================================================
 // Store and History Instantiation

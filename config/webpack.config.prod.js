@@ -17,7 +17,7 @@ const webpackConfig = {
   target: 'web',
   devtool: 'source-map',
   noInfo: false,
-  entry: path.join(baseUrl, 'src', 'index'),
+  entry: path.join(baseUrl, 'client', 'index'),
   output: {
     path: path.join(baseUrl, 'dist'), // Note: Physical files are only output by the production build task `npm run build`.
     publicPath: '/',
@@ -25,7 +25,7 @@ const webpackConfig = {
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.DefinePlugin(GLOBALS),
+    new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify('server')}),
     new ExtractTextPlugin('styles.css', {
       allChunks: true
     }),

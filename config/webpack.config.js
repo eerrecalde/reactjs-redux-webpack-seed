@@ -5,6 +5,8 @@ import ExtractTextPlugin from "extract-text-webpack-plugin"
 
 const baseUrl = path.join(__dirname, '..')
 
+require.extensions['.scss'] = () => { return }
+
 console.log('WEBPACKCONFIG')
 
 let PATHS_TO_TREAT_AS_CSS_MODULES = [
