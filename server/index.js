@@ -20,8 +20,14 @@ const reactApp = (req, res) => {
     // Set up the store by providing the initialState and the history.
     const store = configureStore(initialState, memoryHistory)
 
-    // store.dispatch(loadCourses())
-    // store.dispatch(loadAuthors())
+    // Get the component tree
+    const components = renderProps.components
+
+    // Extract our page component
+    const Comp = components[components.length - 1].WrappedComponent
+
+    // Extract `fetchData` if exists
+    const fetchData = (Comp && Comp.fetchData) || (() => Promise.resolve())
 
     // Create an enhanced history that syncs navigation events with the store
     // https://github.com/reactjs/react-router-redux#tutorial
@@ -37,28 +43,35 @@ const reactApp = (req, res) => {
     } else if (redirectLocation) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
-      const HTML = '<!DOCTYPE html>' +
-        renderToStaticMarkup(
-          <html>
-            <head>
-              <title>Isomorphic Web App</title>
-              <style type="text/css">${css.join('')}</style>
-              <script dangerouslySetInnerHTML={{__html: `___INITIAL_STATE__ = ${JSON.stringify(store.getState())}`}}></script>
-            </head>
-            <body>
-              <div id="app">
-                <AppContainer
-                  store={store}
-                  history={history}
-                  routes={routes}
-                />
-              </div>
-              <script type="application/javascript" src="/bundle.js"></script>
-            </body>
-          </html>
-        )
+      const { location, params } = renderProps
+      fetchData({ store, location, params, history })
+      .then(() => {
+        const HTML = '<!DOCTYPE html>' +
+          renderToStaticMarkup(
+            <html>
+              <head>
+                <title>Isomorphic Web App</title>
+                <style type="text/css">${css.join('')}</style>
+                <script dangerouslySetInnerHTML={{__html: `___INITIAL_STATE__ = ${JSON.stringify(store.getState())}`}}></script>
+              </head>
+              <body>
+                <div id="app">
+                  <AppContainer
+                    store={store}
+                    history={history}
+                    routes={routes}
+                  />
+                </div>
+                <script type="application/javascript" src="/bundle.js"></script>
+              </body>
+            </html>
+          )
 
-      res.status(200).send(HTML)
+        res.status(200).send(HTML)
+      })
+      .catch((err) => {
+        console.log('ERROR!!', err)
+      })
     } else {
       res.status(404).send('Not found')
     }

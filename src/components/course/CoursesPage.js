@@ -19,6 +19,12 @@ class CoursesPage extends React.Component {
     browserHistory.push('/course')
   }
 
+  componentDidMount () {
+    if (!this.props.courses.length) {
+      this.props.actions.loadCourses()
+    }
+  }
+
   render () {
     const {courses} = this.props
     return (
@@ -40,8 +46,10 @@ CoursesPage.propTypes = {
   actions: PropTypes.object.isRequired
 }
 
+CoursesPage.fetchData = ({ store }) => store.dispatch(courseActions.loadCourses())
+
 function mapStateToProps (state, ownProps) {
-  console.log('MAPSSTATETOPROPS', state)
+  console.log('STATE courses length', state.courses.length)
   return {
     courses: state.courses
   }

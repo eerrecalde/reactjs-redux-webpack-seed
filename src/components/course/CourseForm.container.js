@@ -2,6 +2,7 @@ import React, {PropTypes, Component} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as courseActions from '../../actions/courseActions'
+import * as authorActions from '../../actions/authorActions'
 import CourseForm from './CourseForm'
 import {authorsFormattedForDropdown} from '../../selectors/selectors'
 
@@ -26,6 +27,9 @@ export class ManageCoursePage extends Component {
     require('../../../node_modules/alertify-js/themes/alertify.core.css')
     require('../../../node_modules/alertify-js/themes/alertify.default.css')
     alertify = require('alertify-js')
+    if (!this.props.authors.length) {
+      this.props.actions.loadAuthors()
+    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -102,6 +106,10 @@ ManageCoursePage.contextTypes = {
   router: PropTypes.object
 }
 
+ManageCoursePage.fetchData = ({ store }) => {
+  return (store.dispatch(courseActions.loadCourses()), store.dispatch(authorActions.loadAuthors()))
+}
+
 function getCourseById (courses, id) {
   const course = courses.filter(course => course.id === id)
   if (course.length) return course[0] // since filter return an array, have to grab first element.
@@ -111,7 +119,10 @@ function getCourseById (courses, id) {
 function mapStateToProps (state, ownProps) {
   let course = {id: '', watchHref: '', title: '', authorId: '', length: '', category: ''}
   let courseId = ownProps.params.id // From the path '/course/:id'
-
+  console.log('STATE', state)
+  // if(!state.courses.length){
+  //
+  // }
   if (courseId && state.courses.length) {
     course = getCourseById(state.courses, courseId)
   }
@@ -123,8 +134,10 @@ function mapStateToProps (state, ownProps) {
 }
 
 function mapDispatchToProps (dispatch) {
+  console.log('mapDispatchToProps')
+  let actions = Object.assign({}, authorActions, courseActions)
   return {
-    actions: bindActionCreators(courseActions, dispatch)
+    actions: bindActionCreators(actions, dispatch)
   }
 }
 

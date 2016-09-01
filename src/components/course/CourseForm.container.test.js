@@ -1,7 +1,7 @@
 import React from 'react'
 import expect from 'expect'
 import {mount, shallow} from 'enzyme'
-import {ManageCoursePage} from './Courses.container'
+import {ManageCoursePage} from './CourseForm.container'
 
 describe('Manage course Page', () => {
   it('sets error message when trying to save empy title', () => {
