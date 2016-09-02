@@ -10,13 +10,11 @@ require.extensions['.scss'] = () => { return }
 console.log('WEBPACKCONFIG')
 
 let PATHS_TO_TREAT_AS_CSS_MODULES = [
-  path.join(baseUrl, 'src').replace(/[\^\$\.\*\+\-\?\=\!\:\|\\\/\(\)\[\]\{\}\,]/g, '\\$&') // eslint-disable-line
+  path.join(baseUrl, 'src', 'components').replace(/[\^\$\.\*\+\-\?\=\!\:\|\\\/\(\)\[\]\{\}\,]/g, '\\$&') // eslint-disable-line
 ]
 
 const isUsingCSSModules = !!PATHS_TO_TREAT_AS_CSS_MODULES.length
 const cssModulesRegex = new RegExp(`(${PATHS_TO_TREAT_AS_CSS_MODULES})`)
-
-const env = process.NODE_ENV || 'development'
 
 const webpackConfig = {
   devServer: {
@@ -102,15 +100,5 @@ webpackConfig.postcss = [
     sourcemap: true
   })
 ]
-
-if (env !== 'development') {
-  webpackConfig.module.loaders.filter((loader) =>
-    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
-  ).forEach((loader) => {
-    const [first, ...rest] = loader.loaders
-    loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
-    Reflect.deleteProperty(loader, 'loaders')
-  })
-}
 
 export default webpackConfig

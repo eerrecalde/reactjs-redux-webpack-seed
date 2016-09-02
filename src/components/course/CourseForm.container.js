@@ -119,10 +119,6 @@ function getCourseById (courses, id) {
 function mapStateToProps (state, ownProps) {
   let course = {id: '', watchHref: '', title: '', authorId: '', length: '', category: ''}
   let courseId = ownProps.params.id // From the path '/course/:id'
-  console.log('STATE', state)
-  // if(!state.courses.length){
-  //
-  // }
   if (courseId && state.courses.length) {
     course = getCourseById(state.courses, courseId)
   }
@@ -134,7 +130,6 @@ function mapStateToProps (state, ownProps) {
 }
 
 function mapDispatchToProps (dispatch) {
-  console.log('mapDispatchToProps')
   let actions = Object.assign({}, authorActions, courseActions)
   return {
     actions: bindActionCreators(actions, dispatch)

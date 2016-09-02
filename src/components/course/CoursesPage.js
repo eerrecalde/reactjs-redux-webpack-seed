@@ -46,10 +46,11 @@ CoursesPage.propTypes = {
   actions: PropTypes.object.isRequired
 }
 
-CoursesPage.fetchData = ({ store }) => store.dispatch(courseActions.loadCourses())
+CoursesPage.fetchData = ({ store }) => {
+  return store.dispatch(courseActions.loadCourses())
+}
 
 function mapStateToProps (state, ownProps) {
-  console.log('STATE courses length', state.courses.length)
   return {
     courses: state.courses
   }
