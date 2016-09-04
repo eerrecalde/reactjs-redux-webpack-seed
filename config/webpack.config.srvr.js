@@ -7,12 +7,6 @@ const baseUrl = path.join(__dirname, '..')
 
 console.log('WEBPACKCONFIG SRV')
 
-const GLOBALS = {
-  'process.env.NODE_ENV': JSON.stringify('production')
-}
-
-process.env.NODE_ENV = 'production'
-
 config.name = 'server'
 config.target = 'web'
 config.externals = fs.readdirSync(path.join(baseUrl, 'node_modules'))
@@ -37,9 +31,13 @@ config.output = {
 }
 
 let plugins = [
+  new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify('production')}),
   new ExtractTextPlugin('styles.css', {
     allChunks: true
-  })
+  }),
+  new webpack.optimize.DedupePlugin(),
+  new webpack.optimize.UglifyJsPlugin()
 ]
 
 config.plugins = (config.plugins ? config.plugins.concat(plugins) : plugins)

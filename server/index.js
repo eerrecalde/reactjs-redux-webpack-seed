@@ -7,6 +7,7 @@ import routes from '../src/routes'
 import configureStore from '../src/store/configureStore'
 import initialState from '../src/reducers/initialState'
 import AppContainer from '../src/AppContainer'
+import { getStyles } from 'simple-universal-style-loader'
 
 const reactApp = (req, res) => {
   // Tip: https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md
@@ -18,6 +19,7 @@ const reactApp = (req, res) => {
     } else if (renderProps) {
       // Creates an in-memory history object that does not interact with the browser URL (For server side rendering)
       // https://github.com/reactjs/react-router/blob/master/docs/API.md#creatememoryhistoryoptions
+
       const memoryHistory = createMemoryHistory(req.url)
 
       // Set up the store by providing the initialState and the history.
@@ -31,6 +33,7 @@ const reactApp = (req, res) => {
 
       // Extract `fetchData` if exists
       const fetchData = (Comp && Comp.fetchData) || (() => Promise.resolve())
+      console.log('111111111', Comp)
 
       // Create an enhanced history that syncs navigation events with the store
       // https://github.com/reactjs/react-router-redux#tutorial

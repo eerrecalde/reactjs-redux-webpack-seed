@@ -9,6 +9,9 @@ require.extensions['.scss'] = () => { return }
 
 console.log('WEBPACKCONFIG')
 
+const env = process.env.NODE_ENV || 'development'
+console.log('ENV', env)
+
 let PATHS_TO_TREAT_AS_CSS_MODULES = [
   path.join(baseUrl, 'src', 'components').replace(/[\^\$\.\*\+\-\?\=\!\:\|\\\/\(\)\[\]\{\}\,]/g, '\\$&') // eslint-disable-line
 ]
@@ -22,7 +25,21 @@ const webpackConfig = {
   },
   module: {
     loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          cacheDirectory: true,
+          plugins: ['transform-runtime'],
+          presets: ['es2015', 'react', 'stage-0'],
+          env: {
+            production: {
+              presets: ['react-optimize']
+            }
+          }
+        }
+      },
       {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
       {test: /\.(woff|woff2)$/, loader: 'url?prefix=font/&limit=5000'},
       {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream'},
@@ -30,6 +47,8 @@ const webpackConfig = {
     ]
   }
 }
+
+console.log('isUsingCSSModules', isUsingCSSModules)
 
 if (isUsingCSSModules) {
   const cssModulesLoader = [
@@ -100,5 +119,15 @@ webpackConfig.postcss = [
     sourcemap: true
   })
 ]
+
+if (env !== 'development') {
+  webpackConfig.module.loaders.filter((loader) =>
+    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
+  ).forEach((loader) => {
+    const [first, ...rest] = loader.loaders
+    loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
+    Reflect.deleteProperty(loader, 'loaders')
+  })
+}
 
 export default webpackConfig

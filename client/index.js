@@ -16,8 +16,6 @@ const browserHistory = useRouterHistory(createBrowserHistory)({
   basename: ''
 })
 
-console.log('11111', browserHistory)
-
 // ========================================================
 // Store and History Instantiation
 // ========================================================

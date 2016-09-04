@@ -8,7 +8,6 @@ const baseUrl = path.join(__dirname, '..')
 console.log('WEBPACKCONFIG DEV')
 
 const env = process.env.NODE_ENV || 'development'
-console.log('ENV', env)
 
 config.name = 'server'
 config.debug = true
@@ -33,17 +32,6 @@ let plugins = [
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoErrorsPlugin()
 ]
-
-if (env !== 'development') {
-  console.log('PRODUCTION')
-  config.module.loaders.filter((loader) =>
-    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
-  ).forEach((loader) => {
-    const [first, ...rest] = loader.loaders
-    loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
-    Reflect.deleteProperty(loader, 'loaders')
-  })
-}
 
 config.plugins = (config.plugins ? config.plugins.concat(plugins) : plugins)
 

@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
+import styles from './CourseListRow.scss'
 
 const CourseListRow = (props) => {
-  let styles = require('./CourseListRow.scss')
   return (
     <tr>
       <td className={styles.trEl}><a href={props.course.watchHref} target="_blank">Watch</a></td>
