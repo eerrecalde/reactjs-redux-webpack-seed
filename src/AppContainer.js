@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Router } from 'react-router'
 import { Provider } from 'react-redux'
-import './styles/styles.scss'
+import './styles/main.scss'
 
 class AppContainer extends React.Component {
   render () {

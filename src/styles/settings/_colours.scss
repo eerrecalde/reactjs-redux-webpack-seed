@@ -1,0 +1,95 @@
+//Color function
+@function color($key1, $key2: null) {
+  @if map-has-key($colors, $key1) {
+    @if $key2 != null {
+      $next: map-get($colors, $key1);
+
+      @if map-has-key($next, $key2) {
+        @return map-get($next, $key2);
+      }
+
+      @warn "Unknown `#{$key2}` in $colors->`#{$key1}`";
+      @return null;
+    }
+
+    @return map-get($colors, $key1);
+  }
+
+  @warn "Unknown `#{$key1}` in $colors.";
+  @return null;
+}
+
+// Color palette map
+$colors: ( // Lint workaround colon;
+  'white': #FFFFFF,
+  'off-white': #F6F6F6,
+  'black': #0C0C0C,
+  'plum': #CC0066,
+  'orange': #FF9900,
+  'secondary': (
+    'lime': #6B9F01,
+    'grass': #99CC33,
+    'aqua': #00AA90,
+    'red': #E90000,
+    'yellow': #F9B332,
+    'blue': '#4D6FB7',
+    'purple': '#A5017C'
+  ),
+  'plum-shade': (
+    '100': #CC0066,
+    '90': #6A0035,
+    '80': #910048,
+    '70': #A50052,
+    '60': #B9005C,
+    '50': #D3267C,
+    '40': #DB4C93,
+    '30': #E680B3,
+    '20': #EFB0CF,
+    '10': #F9DEEB
+  ),
+  'orange-shade': (
+    '100': #FF9900,
+    '90': #E55000,
+    '80': #F06C00,
+    '70': #F57A00,
+    '60': #FA8900,
+    '50': #FFA826,
+    '40': #FFB74C,
+    '30': #FFCC7F,
+    '20': #FFE0B2,
+    '10': #FFF3E0
+  ),
+  'black-shade': (
+    '100': #0C0C0C,
+    '90': #161616,
+    '80': #333333,
+    '70': #434343,
+    '60': #666666,
+    '50': #767676,
+    '40': #939393,
+    '30': #BDBDBD,
+    '20': #D6D6D6,
+    '10': #E0E0E0,
+    '5': #FBFBFB
+  )
+);
+
+// Type
+$color-text: color('black') !default;
+
+$color-ui-bg: color('white') !default;
+$color-ui-bg-hover: color('black-shade', '80');
+$color-ui-font: color('black') !default;
+$color-ui-font-secondary: color('black-shade', '50');
+$color-ui-font-error: color('secondary', 'red');
+$color-ui-hover: color('white') !default;
+$color-ui-font-third: color('plum');
+$color-ui-shadow: rgba(0, 0, 0, 0.12);
+$color-ui-shadow-alt: rgba(0, 0, 0, 0);
+$color-ui-border: color('black-shade', '20');
+$color-ui-cta: color('orange');
+$color-ui-cta-hover: color('orange-shade', '60');
+$color-ui-icon-link: $color-ui-font;
+$color-ui-icon-link-light: $color-ui-bg;
+$color-ui-icon-link-light-bg: color('plum');
+$color-ui-icon-link-light-bg-hover: color('plum-shade', '80');

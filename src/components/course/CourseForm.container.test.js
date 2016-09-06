@@ -10,6 +10,9 @@ describe('Manage course Page', () => {
       actions: {
         saveCourse: () => {
           return Promise.resolve()
+        },
+        loadAuthors: () => {
+          return Promise.resolve()
         }
       },
       course: {
