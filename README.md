@@ -29,9 +29,9 @@ Main folder which includes all the logic and markup existing in the project. Som
 * **api** Api (faked) data and methods
 * **components** is divided by module in different folders (all of them specific for the component folder). Each module can have the following type of files (followed by the naming convention):
 
-    * **Style files**: [COMPONENT NAME].scss
     * **Component containers**: [COMPONENT NAME].container.js
     * **Stateless components**: [COMPONENT NAME].js
+    * **Style files**: [COMPONENT NAME].scss
     * **Test files**: [COMPONENT NAME].test.js
 
 ### First steps
