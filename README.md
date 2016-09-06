@@ -10,17 +10,17 @@ I took the example done in Cory House's course https://github.com/coryhouse/plur
 - It works with JS disabled
 
 ### Project Structure
-##### config
+#### config
 Webpack configuration files.
-##### tools
+#### tools
 Build and Test set up files
-##### client
+#### client
 Client side entry point (when running on Dev mode)
-##### server
+#### server
 Server side entry point (when running on Prod mode)
-##### dist
+#### dist
 All the compiled files will go here when running build task
-##### src
+#### src
 Main folder which includes all the logic and markup existing in the project. Some of the key elements here are:
 
 
