@@ -2,12 +2,12 @@
   "extends": [
     "eslint:recommended",
     "standard",
-    "standard-react",
-    "plugin:import/warnings"
+    "standard-react"
   ],
   "plugins": [
     "babel",
-    "react"
+    "react",
+    "promise"
   ],
   "parserOptions": {
     "ecmaVersion": 6,

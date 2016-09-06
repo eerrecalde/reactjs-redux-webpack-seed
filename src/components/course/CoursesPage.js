@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as courseActions from '../../actions/courseActions'
 import CourseList from './CourseList'
-import {browserHistory} from 'react-router'
+import {browserHistory, Link} from 'react-router'
 
 class CoursesPage extends React.Component {
   constructor (props, context) {
@@ -19,15 +19,22 @@ class CoursesPage extends React.Component {
     browserHistory.push('/course')
   }
 
+  componentDidMount () {
+    if (!this.props.courses.length) {
+      this.props.actions.loadCourses()
+    }
+  }
+
   render () {
     const {courses} = this.props
     return (
       <div>
         <h1>Courses</h1>
-        <button
-          className="btn btn-primary"
-          onClick={this.redirectToAddCoursePage}
-        >Add Course</button>
+        <Link to="/course">
+          <button
+            className="btn btn-primary"
+          >Add Course</button>
+        </Link>
         <CourseList courses={courses} />
       </div>
     )
@@ -37,6 +44,10 @@ class CoursesPage extends React.Component {
 CoursesPage.propTypes = {
   courses: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
+}
+
+CoursesPage.fetchData = ({ store }) => {
+  return store.dispatch(courseActions.loadCourses())
 }
 
 function mapStateToProps (state, ownProps) {

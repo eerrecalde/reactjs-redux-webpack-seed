@@ -1,22 +1,35 @@
 import webpack from 'webpack'
 import path from 'path'
+import ExtractTextPlugin from "extract-text-webpack-plugin"
 import config from './webpack.config'
-
 const baseUrl = path.join(__dirname, '..')
 
-const webpackConfigDev = {
-  debug: true,
-  devtool: 'cheap-module-eval-source-map',
-  noInfo: false,
-  entry: [
-    'eventsource-polyfill', // necessary for hot reloading with IE
-    'webpack-hot-middleware/client?reload=true', // note that it reloads the page if hot module reloading fails.
-    path.join(baseUrl, 'src', 'index')
-  ],
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ]
+const env = process.env.NODE_ENV || 'production'
+
+config.name = 'server'
+config.debug = true
+config.target = 'web'
+config.devtool = 'cheap-module-eval-source-map'
+config.noInfo = false
+config.host = 'localhost'
+config.port = 3000
+config.entry = [
+  'webpack-hot-middleware/client?reload=true', // note that it reloads the page if hot module reloading fails.
+  path.join(baseUrl, 'client', 'index')
+]
+
+config.output = {
+  path: path.join(baseUrl, 'dist'), // Note: Physical files are only output by the production build task `npm run build`.
+  publicPath: '/',
+  filename: 'bundle.js'
 }
 
-export default Object.assign(config, webpackConfigDev)
+let plugins = [
+  new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.HotModuleReplacementPlugin(),
+  new webpack.NoErrorsPlugin()
+]
+
+config.plugins = (config.plugins ? config.plugins.concat(plugins) : plugins)
+
+export default config

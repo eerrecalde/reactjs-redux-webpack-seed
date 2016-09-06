@@ -1,7 +1,7 @@
 import React from 'react'
 import expect from 'expect'
 import {mount, shallow} from 'enzyme'
-import {ManageCoursePage} from './ManageCoursePage'
+import {ManageCoursePage} from './CourseForm.container'
 
 describe('Manage course Page', () => {
   it('sets error message when trying to save empy title', () => {
@@ -9,6 +9,9 @@ describe('Manage course Page', () => {
       authors: [],
       actions: {
         saveCourse: () => {
+          return Promise.resolve()
+        },
+        loadAuthors: () => {
           return Promise.resolve()
         }
       },
