@@ -2,12 +2,9 @@ import webpack from 'webpack'
 import path from 'path'
 import ExtractTextPlugin from "extract-text-webpack-plugin"
 import config from './webpack.config'
-import fs from 'fs'
 const baseUrl = path.join(__dirname, '..')
 
-console.log('WEBPACKCONFIG DEV')
-
-const env = process.env.NODE_ENV || 'development'
+const env = process.env.NODE_ENV || 'production'
 
 config.name = 'server'
 config.debug = true

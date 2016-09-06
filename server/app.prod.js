@@ -1,5 +1,5 @@
 import webpack from 'webpack'
-import config from '../config/webpack.config.srvr'
+import config from '../config/webpack.config.prod'
 import reactApp from './index'
 import express from 'express'
 import path from 'path'

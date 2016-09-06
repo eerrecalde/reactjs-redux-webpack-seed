@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { Router } from 'react-router'
 import { Provider } from 'react-redux'
 import './styles/styles.scss'
-console.log('APP CONTAINER')
+
 class AppContainer extends React.Component {
   render () {
     const { history, routes, store } = this.props

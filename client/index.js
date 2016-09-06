@@ -29,8 +29,6 @@ const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: (state) => state.router
 })
 
-console.log('CLIENT SIDE STORE')
-
 let render = () => {
   ReactDOM.render(
     <AppContainer

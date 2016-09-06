@@ -1,4 +1,5 @@
 import React from 'react'
+import fs from 'fs-extra'
 import { RouterContext, match } from 'react-router'
 import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import { syncHistoryWithStore } from 'react-router-redux'
@@ -7,7 +8,33 @@ import routes from '../src/routes'
 import configureStore from '../src/store/configureStore'
 import initialState from '../src/reducers/initialState'
 import AppContainer from '../src/AppContainer'
+import path from 'path'
 import { getStyles } from 'simple-universal-style-loader'
+
+const env = process.env.NODE_ENV || 'development'
+
+let baseDir = path.join(__dirname, '..', 'dist')
+let scripts
+let styles
+if (env === 'production') {
+  let clientInfo = fs.readJSONSync(path.join(baseDir, 'client_info.json'))
+
+  let { main } = clientInfo.assetsByChunkName
+
+  scripts = [].concat(
+    Array.isArray(main) ? main : [main]
+    )
+    .filter(asset => (/\.(js)$/i).test(asset))
+    .map((asset, i) => <script key={i} type='text/javascript' src={`/${asset}`}></script>)
+  styles = [].concat(
+    Array.isArray(main) ? main : [main]
+    )
+    .filter(asset => (/\.(css)$/i).test(asset))
+    .map((asset, i) => <link key={i} rel='stylesheet' href={`/${asset}`} />)
+} else {
+  styles = <link rel="stylesheet" href="/styles.css" />
+  scripts = <script type="text/javascript" src="/bundle.js"></script>
+}
 
 const reactApp = (req, res) => {
   // Tip: https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md
@@ -33,7 +60,6 @@ const reactApp = (req, res) => {
 
       // Extract `fetchData` if exists
       const fetchData = (Comp && Comp.fetchData) || (() => Promise.resolve())
-      console.log('111111111', Comp)
 
       // Create an enhanced history that syncs navigation events with the store
       // https://github.com/reactjs/react-router-redux#tutorial
@@ -48,8 +74,8 @@ const reactApp = (req, res) => {
           renderToStaticMarkup(
             <html>
               <head>
-                <title>Isomorphic Web App</title>
-                <link rel="stylesheet" href="/styles.css"></link>
+                <title>Isomorphic Web App2</title>
+                {styles}
                 <script dangerouslySetInnerHTML={{__html: `___INITIAL_STATE__ = ${JSON.stringify(store.getState())}`}}></script>
               </head>
               <body>
@@ -60,7 +86,7 @@ const reactApp = (req, res) => {
                     routes={routes}
                   />
                 </div>
-                <script type="application/javascript" src="/bundle.js"></script>
+                {scripts}
               </body>
             </html>
           )

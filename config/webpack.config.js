@@ -7,10 +7,7 @@ const baseUrl = path.join(__dirname, '..')
 
 require.extensions['.scss'] = () => { return }
 
-console.log('WEBPACKCONFIG')
-
 const env = process.env.NODE_ENV || 'development'
-console.log('ENV', env)
 
 let PATHS_TO_TREAT_AS_CSS_MODULES = [
   path.join(baseUrl, 'src', 'components').replace(/[\^\$\.\*\+\-\?\=\!\:\|\\\/\(\)\[\]\{\}\,]/g, '\\$&') // eslint-disable-line
@@ -45,17 +42,16 @@ const webpackConfig = {
       {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream'},
       {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml'}
     ]
-  }
+  },
+  plugins: []
 }
-
-console.log('isUsingCSSModules', isUsingCSSModules)
 
 if (isUsingCSSModules) {
   const cssModulesLoader = [
     'css?sourceMap&-minimize',
     'modules',
     'importLoaders=1',
-    'localIdentName=[name]-[local]-[hash:base64:5]'
+    'localIdentName=[local]'
   ].join('&')
 
   webpackConfig.module.loaders.push({
@@ -128,6 +124,12 @@ if (env !== 'development') {
     loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
     Reflect.deleteProperty(loader, 'loaders')
   })
+
+  webpackConfig.plugins.push(
+    new ExtractTextPlugin('[name].[contenthash].css', {
+      allChunks: true
+    })
+  )
 }
 
 export default webpackConfig

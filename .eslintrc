@@ -6,7 +6,8 @@
   ],
   "plugins": [
     "babel",
-    "react"
+    "react",
+    "promise"
   ],
   "parserOptions": {
     "ecmaVersion": 6,

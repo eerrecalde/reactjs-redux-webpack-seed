@@ -1,3 +1,10 @@
-.trEl {
-  background: rgba(0,0,0,0.3);
+.row {
+  &__link {
+    text-decoration: none;
+    color: #559999;
+
+    &--secondary {
+      color: #995555;
+    }
+  }
 }
