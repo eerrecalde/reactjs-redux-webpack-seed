@@ -8,6 +8,7 @@ I took the example done in Cory House's course https://github.com/coryhouse/plur
 - Linting
 - Unit Test (Mocha, Chai, Enzyme)
 - It works with JS disabled
+- React Helmet (to handle meta data)
 
 ### Project Structure
 #### config
