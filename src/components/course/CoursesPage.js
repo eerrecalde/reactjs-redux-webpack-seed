@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux'
 import * as courseActions from '../../actions/courseActions'
 import CourseList from './CourseList'
 import {browserHistory, Link} from 'react-router'
+import Helmet from "react-helmet"
 
 class CoursesPage extends React.Component {
   constructor (props, context) {
@@ -29,6 +30,9 @@ class CoursesPage extends React.Component {
     const {courses} = this.props
     return (
       <div>
+        <Helmet
+          title="Starter kit | Courses"
+        />
         <h1>Courses</h1>
         <Link to="/course">
           <button

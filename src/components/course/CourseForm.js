@@ -1,10 +1,14 @@
 import React, {PropTypes} from 'react'
 import TextInput from '../common/TextInput'
 import SelectInput from '../common/SelectInput'
+import Helmet from "react-helmet"
 
 const CourseForm = ({course, allAuthors, onSave, onChange, saving, errors}) => {
   return (
     <form>
+      <Helmet
+        title="Starter kit | Course"
+      />
       <h1>Manage Course</h1>
       <TextInput
         name="title"

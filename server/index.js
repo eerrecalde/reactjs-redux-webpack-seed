@@ -1,6 +1,6 @@
 import React from 'react'
 import fs from 'fs-extra'
-import { RouterContext, match } from 'react-router'
+import { RouterContext, match, Link } from 'react-router'
 import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import { syncHistoryWithStore } from 'react-router-redux'
 import createMemoryHistory from 'react-router/lib/createMemoryHistory'
@@ -10,8 +10,32 @@ import initialState from '../src/reducers/initialState'
 import AppContainer from '../src/AppContainer'
 import path from 'path'
 import { getStyles } from 'simple-universal-style-loader'
+import Helmet from "react-helmet"
 
 const env = process.env.NODE_ENV || 'development'
+
+function getTitle (l) {
+  let title
+
+  switch (l) {
+    case '/courses':
+      title = "Starter kit | Courses"
+      break
+
+    case '/about':
+      title = "Starter kit | About"
+      break
+
+    default:
+      title = "Starter kit | Home"
+  }
+
+  if (l.indexOf('/course/') > -1) {
+    title = "Starter kit | Course"
+  }
+
+  return title
+}
 
 const reactApp = (req, res) => {
   // Tip: https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md
@@ -70,11 +94,13 @@ const reactApp = (req, res) => {
       const { location, params } = renderProps
       fetchData({ store, location, params, history })
       .then(() => {
+        let head = Helmet.rewind()
+        head.title = getTitle(location.pathname)
         const HTML = '<!DOCTYPE html>' +
           renderToStaticMarkup(
             <html>
               <head>
-                <title>Isomorphic Web App2</title>
+                <title>{head.title.toString()}</title>
                 {styles}
                 <script dangerouslySetInnerHTML={{__html: `___INITIAL_STATE__ = ${JSON.stringify(store.getState())}`}}></script>
               </head>
@@ -97,7 +123,7 @@ const reactApp = (req, res) => {
         console.log('ERROR!!', err)
       })
     } else {
-      res.status(404).send('Not found')
+      res.status(404).send('Page not found')
     }
   })
 }
