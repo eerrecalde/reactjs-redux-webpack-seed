@@ -14,6 +14,8 @@ import Helmet from "react-helmet"
 
 const env = process.env.NODE_ENV || 'development'
 
+console.log('ENV', env)
+
 function getTitle (l) {
   let title
 

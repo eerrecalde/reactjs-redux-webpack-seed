@@ -1,6 +1,5 @@
 import webpack from 'webpack'
 import path from 'path'
-import ExtractTextPlugin from "extract-text-webpack-plugin"
 import config from './webpack.config'
 const baseUrl = path.join(__dirname, '..')
 

@@ -34,7 +34,7 @@ webpack(webpackConfig).run((err, stats) => {
   let {hash, version, assetsByChunkName} = jsonStats
 
   // Generate JSON file with info about assets.
-  writeClientInfo({hash, version, assetsByChunkName})
+  writeIntoFile({hash, version, assetsByChunkName}, clientInfo)
     .then(function () {
       console.log('Client info file generated: ', clientInfo)
     },
@@ -50,9 +50,9 @@ webpack(webpackConfig).run((err, stats) => {
   return 0
 })
 
-function writeClientInfo (data) {
+function writeIntoFile (data, file) {
   return new Promise((resolve, reject) => {
-    fs.writeJson(clientInfo, data, function (err) {
+    fs.writeJson(file, data, function (err) {
       if (err) {
         reject(err)
       }
