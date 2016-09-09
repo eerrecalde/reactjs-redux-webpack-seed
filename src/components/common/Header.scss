@@ -1,0 +1,9 @@
+@import '../../styles/settings/colours';
+
+.nav__link {
+  text-decoration: none;
+  color: color('plum-shade', '80');
+  &:hover {
+    color: color('black-shade', '60');
+  }
+}

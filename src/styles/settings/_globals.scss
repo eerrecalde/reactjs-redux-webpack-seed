@@ -6,8 +6,12 @@
   margin: 0 auto;
 }
 
-a.active {
-  color: orange;
+a {
+  text-decoration: none;
+
+  &.active {
+    color: orange;
+  }
 }
 
 nav {
