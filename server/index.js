@@ -7,7 +7,7 @@ import createMemoryHistory from 'react-router/lib/createMemoryHistory'
 import routes from '../src/routes'
 import configureStore from '../src/store/configureStore'
 import initialState from '../src/reducers/initialState'
-import AppContainer from '../src/AppContainer'
+import AppContainer from '../src/App'
 import path from 'path'
 import { getStyles } from 'simple-universal-style-loader'
 import Helmet from "react-helmet"
