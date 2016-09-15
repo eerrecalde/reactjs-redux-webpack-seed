@@ -15,7 +15,6 @@ export function updateCourseSuccess (course) {
 }
 
 export function loadCourses () {
-  console.log('LOAD COURSES')
   return function (dispatch) {
     dispatch(beginAjaxCall())
     return courseApi.getAllCourses().then((courses) => {

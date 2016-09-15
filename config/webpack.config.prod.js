@@ -4,16 +4,11 @@ import ExtractTextPlugin from "extract-text-webpack-plugin"
 import config from './webpack.config'
 import fs from 'fs'
 const baseUrl = path.join(__dirname, '..')
+var nodeExternals = require("webpack-node-externals")
 
 config.name = 'server'
-config.target = 'web'
-config.externals = fs.readdirSync(path.join(baseUrl, 'node_modules'))
-  .concat([
-    'react-dom/server', 'react/addons'
-  ]).reduce(function (ext, mod) {
-    ext[mod] = 'commonjs ' + mod
-    return ext
-  }, {})
+config.target = 'node'
+config.externals = [nodeExternals()]
 
 config.host = 'localhost'
 config.port = 3000
