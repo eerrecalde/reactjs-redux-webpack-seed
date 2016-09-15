@@ -116,20 +116,20 @@ webpackConfig.postcss = [
   })
 ]
 
-if (env !== 'development') {
-  webpackConfig.module.loaders.filter((loader) =>
-    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
-  ).forEach((loader) => {
-    const [first, ...rest] = loader.loaders
-    loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
-    Reflect.deleteProperty(loader, 'loaders')
-  })
+webpackConfig.module.loaders.filter((loader) =>
+  loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
+).forEach((loader) => {
+  const [first, ...rest] = loader.loaders
+  loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
+  Reflect.deleteProperty(loader, 'loaders')
+})
 
-  webpackConfig.plugins.push(
-    new ExtractTextPlugin('[name].[contenthash].css', {
-      allChunks: true
-    })
-  )
-}
+let filename = (env === 'production') ? '[name].[contenthash].css' : 'style.css'
+
+webpackConfig.plugins.push(
+  new ExtractTextPlugin(filename, {
+    allChunks: true
+  })
+)
 
 export default webpackConfig
