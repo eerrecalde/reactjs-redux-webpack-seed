@@ -10,7 +10,6 @@ const getAuthors = (state) => state.authors
 export const authorsFormattedForDropdown = createSelector(
   [getAuthors],
   (authors) => {
-    console.log('MAPPING STUFF')
     return authors.map(author => {
       return {
         value: author.id,
