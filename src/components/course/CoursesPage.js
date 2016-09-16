@@ -12,18 +12,18 @@ class CoursesPage extends React.Component {
     this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this)
   }
 
-  courseRow (course, index) {
-    return <div key={index}>{course.title}</div>
+  componentDidMount () {
+    if (!this.props.courses.length) {
+      this.props.actions.loadCourses()
+    }
   }
 
   redirectToAddCoursePage () {
     browserHistory.push('/course')
   }
 
-  componentDidMount () {
-    if (!this.props.courses.length) {
-      this.props.actions.loadCourses()
-    }
+  courseRow (course, index) {
+    return <div key={index}>{course.title}</div>
   }
 
   render () {

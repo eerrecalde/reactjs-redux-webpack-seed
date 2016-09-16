@@ -4,7 +4,7 @@ import ExtractTextPlugin from "extract-text-webpack-plugin"
 import config from './webpack.config'
 import fs from 'fs'
 const baseUrl = path.join(__dirname, '..')
-var nodeExternals = require("webpack-node-externals")
+const nodeExternals = require("webpack-node-externals")
 
 config.name = 'server'
 config.target = 'node'
