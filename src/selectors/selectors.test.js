@@ -6,17 +6,21 @@ import {authorsFormattedForDropdown} from './selectors'
 describe('Author Selectors', () => {
   describe('authorsFormattedDropdown', () => {
     it('Should return author data formatted for use in a dropdown', () => {
-      const authors = [
-        {id: 'cory-house', firstName: 'Cory', lastName: 'House'},
-        {id: 'scott-allen', firstName: 'Scott', lastName: 'Allen'}
-      ]
+
+      // We fake the state so we can make use of the selector.
+      const state = {
+        authors: [
+          {id: 'cory-house', firstName: 'Cory', lastName: 'House'},
+          {id: 'scott-allen', firstName: 'Scott', lastName: 'Allen'}
+        ]
+      }
 
       const expected = [
         {value: 'cory-house', text: 'Cory House'},
         {value: 'scott-allen', text: 'Scott Allen'}
       ]
 
-      expect(authorsFormattedForDropdown(authors)).toEqual(expected)
+      expect(authorsFormattedForDropdown(state)).toEqual(expected)
     })
   })
 })

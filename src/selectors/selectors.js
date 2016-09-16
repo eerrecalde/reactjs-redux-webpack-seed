@@ -1,10 +1,21 @@
-// Any sort of expensive operations or data manipulation should be placed here.
+// Any sort of expensive operations about data manipulation should be placed here.
+// Basically with this module we avoid recalculating the same thing all the time, and it'll instead
+// recalculate only when the relevant part of the store is modified
+// (in this case authors).
+// See https://github.com/reactjs/reselect
+import { createSelector } from 'reselect'
 
-export function authorsFormattedForDropdown (authors) {
-  return authors.map(author => {
-    return {
-      value: author.id,
-      text: author.firstName + ' ' + author.lastName
-    }
-  })
-}
+const getAuthors = (state) => state.authors
+
+export const authorsFormattedForDropdown = createSelector(
+  [getAuthors],
+  (authors) => {
+    console.log('MAPPING STUFF')
+    return authors.map(author => {
+      return {
+        value: author.id,
+        text: author.firstName + ' ' + author.lastName
+      }
+    })
+  }
+)
