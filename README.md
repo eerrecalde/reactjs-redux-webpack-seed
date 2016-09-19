@@ -9,6 +9,9 @@ I took the example done in Cory House's course https://github.com/coryhouse/plur
 - Unit Test (Mocha, Chai, Enzyme)
 - It works with JS disabled
 - React Helmet (to handle meta data)
+- Reselect (to handle expensive data operations)
+- CSS Modules support + working example
+- Purify (To get rid of the unused css)
 
 ### Project Structure
 #### config

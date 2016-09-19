@@ -2,6 +2,7 @@ import webpack from 'webpack'
 import path from 'path'
 import cssnano from 'cssnano'
 import ExtractTextPlugin from "extract-text-webpack-plugin"
+import Purify from 'purifycss-webpack-plugin'
 
 const baseUrl = path.join(__dirname, '..')
 
@@ -128,6 +129,15 @@ let filename = (env === 'production') ? '[name].[contenthash].css' : 'style.css'
 webpackConfig.plugins.push(
   new ExtractTextPlugin(filename, {
     allChunks: true
+  })
+)
+
+webpackConfig.plugins.push(
+  new Purify({
+    basePath: path.join(baseUrl, "src"),
+    paths: [
+      "components/**/*.js"
+    ]
   })
 )
 
